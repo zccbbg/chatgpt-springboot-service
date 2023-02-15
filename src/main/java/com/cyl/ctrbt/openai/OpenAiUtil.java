@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class OpenAiUtil {
 
     @PostConstruct
     public void init(){
-        service= new OpenAiService(token);
+        service= new OpenAiService(token, Duration.ofSeconds(60L));
     }
     public List<CompletionChoice> sendComplete(String prompt) {
         CompletionRequest completionRequest = CompletionRequest.builder()
