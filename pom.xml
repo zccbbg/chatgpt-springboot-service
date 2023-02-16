@@ -37,6 +37,11 @@
             <artifactId>dingtalk</artifactId>
             <version>1.5.39</version>
         </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alibaba-dingtalk-service-sdk</artifactId>
+            <version>2.0.0</version>
+        </dependency>
         <!-- 说明文档： https://github.com/Wechat-Group/WxJava/wiki/%E4%BC%81%E4%B8%9A%E5%8F%B7%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3 -->
         <dependency>
             <groupId>com.github.binarywang</groupId>
