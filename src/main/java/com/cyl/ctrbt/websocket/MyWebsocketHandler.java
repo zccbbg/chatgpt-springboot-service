@@ -8,6 +8,7 @@ import com.theokanning.openai.completion.CompletionChoice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.PongMessage;
 import org.springframework.web.socket.TextMessage;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
+@Component
 public class MyWebsocketHandler extends AbstractWebSocketHandler {
 
     @Autowired
@@ -68,9 +69,8 @@ public class MyWebsocketHandler extends AbstractWebSocketHandler {
         try {
             List<CompletionChoice> list = openAiUtil.sendComplete(message.getPayload());
             textMessage = new TextMessage(JSONUtil.toJsonStr(list));
-            session.sendMessage(textMessage);
         } catch (Exception e) {
-            textMessage = new TextMessage(JSONUtil.toJsonStr(e.getMessage()));
+            textMessage = new TextMessage(e.getMessage());
         }
         session.sendMessage(textMessage);
 
