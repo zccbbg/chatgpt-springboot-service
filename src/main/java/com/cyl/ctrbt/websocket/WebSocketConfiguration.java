@@ -1,5 +1,6 @@
 package com.cyl.ctrbt.websocket;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -20,11 +21,13 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();
     }
+    @Autowired
+    private MyWebsocketHandler myWebsocketHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
         webSocketHandlerRegistry
-                .addHandler(new MyWebsocketHandler(), "/websocket")
+                .addHandler(myWebsocketHandler, "/websocket")
                 .setAllowedOrigins("*")
                 .addInterceptors(webSocketInterceptor());
     }
