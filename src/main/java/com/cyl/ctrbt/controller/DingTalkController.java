@@ -24,7 +24,7 @@ public class DingTalkController {
   @Autowired
   private OpenAiUtil openAiUtil;
 
-  @PostMapping("/receive")
+  @RequestMapping("/receive")
   public String helloRobots(@RequestBody(required = false) JSONObject json) {
     System.out.println(JSONUtil.toJsonStr(json));
     String content = json.getJSONObject("text").get("content").toString().replaceAll(" ", "");
@@ -42,7 +42,8 @@ public class DingTalkController {
       request.setMsgtype("text");
       OapiRobotSendRequest.Text text = new OapiRobotSendRequest.Text();
       List<CompletionChoice> completionChoices = openAiUtil.sendComplete(content);
-      text.setContent(completionChoices.stream().map(it->it.getText()).collect(Collectors.joining(";")));
+      System.out.println(JSONUtil.toJsonStr(completionChoices.stream().map(it->it.getText()).collect(Collectors.toList())));
+      text.setContent(completionChoices.stream().map(it->it.getText()).collect(Collectors.joining("")));
       request.setText(text);
       OapiRobotSendResponse response = client.execute(request);
       System.out.println(response.getBody());
