@@ -25,7 +25,7 @@ public class OpenAiUtil {
     public List<CompletionChoice> sendComplete(String prompt) {
         CompletionRequest completionRequest = CompletionRequest.builder()
                 .model("text-davinci-003")
-                .maxTokens(256)
+                .maxTokens(1500)
                 .prompt(prompt)
                 .user("testing")
                 .logitBias(new HashMap<>())
