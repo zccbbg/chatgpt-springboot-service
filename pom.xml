@@ -73,6 +73,7 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.12</version>
         </dependency>
+<!--        junit测试会用到，创建了一个client，连接springboot websocket服务-->
         <dependency>
             <groupId>org.java-websocket</groupId>
             <artifactId>Java-WebSocket</artifactId>
