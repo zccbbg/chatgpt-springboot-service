@@ -62,12 +62,14 @@ public class MyWebsocketHandler extends AbstractWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        String user = webSocketBeanMap.get(session.getId()).getClientId();
         //处理接收到的消息
-        logger.info("Received message from client[ID:" + webSocketBeanMap.get(session.getId()).getClientId() +
+        logger.info("Received message from client[ID:" + user +
                 "]; Content is [" + message.getPayload() + "].");
         TextMessage textMessage;
+
         try {
-            List<CompletionChoice> list = openAiUtil.sendComplete(message.getPayload());
+            List<CompletionChoice> list = openAiUtil.sendComplete(message.getPayload(),user);
             textMessage = new TextMessage(JSONUtil.toJsonStr(list));
         } catch (Exception e) {
             textMessage = new TextMessage(e.getMessage());

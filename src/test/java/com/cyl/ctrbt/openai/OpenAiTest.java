@@ -20,7 +20,7 @@ public class OpenAiTest {
 
     @Test
     public void testOpenAi(){
-        List<CompletionChoice> completionChoices = openAiUtil.sendComplete("单身狗如何过情人节？");
+        List<CompletionChoice> completionChoices = openAiUtil.sendComplete("单身狗如何过情人节？","user1");
         completionChoices.forEach(
                 choice ->{
                     System.out.println("gpt3："+choice.getText());

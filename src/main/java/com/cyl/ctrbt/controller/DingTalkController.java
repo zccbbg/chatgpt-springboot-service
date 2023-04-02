@@ -41,7 +41,7 @@ public class DingTalkController {
       OapiRobotSendRequest request = new OapiRobotSendRequest();
       request.setMsgtype("text");
       OapiRobotSendRequest.Text text = new OapiRobotSendRequest.Text();
-      List<CompletionChoice> completionChoices = openAiUtil.sendComplete(content);
+      List<CompletionChoice> completionChoices = openAiUtil.sendComplete(content,"dingtalk");
       System.out.println(JSONUtil.toJsonStr(completionChoices.stream().map(it->it.getText()).collect(Collectors.toList())));
       text.setContent(completionChoices.stream().map(it->it.getText()).collect(Collectors.joining("")));
       request.setText(text);

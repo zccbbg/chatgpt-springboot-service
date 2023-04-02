@@ -22,12 +22,12 @@ public class OpenAiUtil {
     public void init(){
         service= new OpenAiService(token, Duration.ofSeconds(60L));
     }
-    public List<CompletionChoice> sendComplete(String prompt) {
+    public List<CompletionChoice> sendComplete(String prompt,String user) {
         CompletionRequest completionRequest = CompletionRequest.builder()
                 .model("text-davinci-003")
                 .maxTokens(1500)
                 .prompt(prompt)
-                .user("testing")
+                .user(user)
                 .logitBias(new HashMap<>())
                 .build();
 
