@@ -5,3 +5,6 @@ logging:
     root: info
 openai:
   secret_key: 测试前请先设置您的SECRET KEY，查看地址：https://platform.openai.com/account/api-keys
+proxy: #如果在国内访问，使用这个
+  ip: 127.0.0.1
+  port: 33210

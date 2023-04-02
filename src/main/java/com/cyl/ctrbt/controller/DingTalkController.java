@@ -2,19 +2,16 @@ package com.cyl.ctrbt.controller;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.cyl.ctrbt.openai.OpenAiUtil;
+import com.cyl.ctrbt.openai.ChatGPTUtil;
+import com.cyl.ctrbt.openai.entity.chat.Message;
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiRobotSendRequest;
 import com.dingtalk.api.response.OapiRobotSendResponse;
 import com.taobao.api.ApiException;
-import com.theokanning.openai.completion.CompletionChoice;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequestMapping("/ding-talk")
@@ -22,7 +19,7 @@ import java.util.stream.Collectors;
 public class DingTalkController {
 
   @Autowired
-  private OpenAiUtil openAiUtil;
+  private ChatGPTUtil chatGPTUtil;
 
   @RequestMapping("/receive")
   public String helloRobots(@RequestBody(required = false) JSONObject json) {
@@ -41,9 +38,8 @@ public class DingTalkController {
       OapiRobotSendRequest request = new OapiRobotSendRequest();
       request.setMsgtype("text");
       OapiRobotSendRequest.Text text = new OapiRobotSendRequest.Text();
-      List<CompletionChoice> completionChoices = openAiUtil.sendComplete(content,"dingtalk");
-      System.out.println(JSONUtil.toJsonStr(completionChoices.stream().map(it->it.getText()).collect(Collectors.toList())));
-      text.setContent(completionChoices.stream().map(it->it.getText()).collect(Collectors.joining("")));
+      Message message = chatGPTUtil.chat(content, "dingtalk");
+      text.setContent(message.getContent());
       request.setText(text);
       OapiRobotSendResponse response = client.execute(request);
       System.out.println(response.getBody());

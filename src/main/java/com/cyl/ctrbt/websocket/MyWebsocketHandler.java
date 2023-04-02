@@ -2,9 +2,10 @@ package com.cyl.ctrbt.websocket;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.json.JSONUtil;
-import com.cyl.ctrbt.openai.OpenAiUtil;
+import com.cyl.ctrbt.openai.ChatGPTStrreamUtil;
+import com.cyl.ctrbt.openai.ChatGPTUtil;
+import com.cyl.ctrbt.openai.entity.chat.Message;
 import com.cyl.ctrbt.websocket.bean.WebSocketBean;
-import com.theokanning.openai.completion.CompletionChoice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MyWebsocketHandler extends AbstractWebSocketHandler {
 
     @Autowired
-    private OpenAiUtil openAiUtil;
+    private ChatGPTUtil chatGPTUtil;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -67,15 +67,9 @@ public class MyWebsocketHandler extends AbstractWebSocketHandler {
         logger.info("Received message from client[ID:" + user +
                 "]; Content is [" + message.getPayload() + "].");
         TextMessage textMessage;
-
-        try {
-            List<CompletionChoice> list = openAiUtil.sendComplete(message.getPayload(),user);
-            textMessage = new TextMessage(JSONUtil.toJsonStr(list));
-        } catch (Exception e) {
-            textMessage = new TextMessage(e.getMessage());
-        }
+        Message returnMessage = chatGPTUtil.chat(message.getPayload(), user);
+        textMessage= new TextMessage(returnMessage.getContent());
         session.sendMessage(textMessage);
-
     }
 
     @Override
