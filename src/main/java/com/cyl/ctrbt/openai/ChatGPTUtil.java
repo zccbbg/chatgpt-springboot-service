@@ -8,6 +8,7 @@ import com.cyl.ctrbt.util.Proxys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.net.Proxy;
@@ -28,16 +29,25 @@ public class ChatGPTUtil {
 
     @PostConstruct
     public void init(){
-        //如果在国内访问，使用这个
-        Proxy proxy = Proxys.http(proxyIp, proxyPort);
+        if(!StringUtils.isEmpty(proxyIp)){
+            //如果在国内访问，使用这个,在application.yml里面配置
+            Proxy proxy = Proxys.http(proxyIp, proxyPort);
+            chatGPT = ChatGPT.builder()
+                    .apiKey(token)
+                    .timeout(600)
+                    .proxy(proxy)
+                    .apiHost("https://api.openai.com/") //代理地址
+                    .build()
+                    .init();
+        }else{
+            chatGPT = ChatGPT.builder()
+                    .apiKey(token)
+                    .timeout(600)
+                    .apiHost("https://api.openai.com/") //代理地址
+                    .build()
+                    .init();
+        }
 
-        chatGPT = ChatGPT.builder()
-                .apiKey(token)
-                .timeout(600)
-                .proxy(proxy)
-                .apiHost("https://api.openai.com/") //代理地址
-                .build()
-                .init();
     }
     public Message chat(String userMessage,String user) {
         Message message = Message.of(userMessage);
