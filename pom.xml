@@ -16,8 +16,6 @@
     <properties>
         <java.version>1.8</java.version>
         <retrofit2.version>2.9.0</retrofit2.version>
-        <slf4j.version>2.0.7</slf4j.version>
-        <logback.version>1.4.6</logback.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
@@ -28,23 +26,6 @@
             <version>1.18.26</version>
             <scope>compile</scope>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
         </dependency>
         <!-- 钉钉： https://open.dingtalk.com/document/resourcedownload/download-server-sdk  -->
         <dependency>
